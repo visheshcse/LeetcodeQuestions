@@ -1,6 +1,5 @@
 """
 Question URLs:
-TakeUForward: https://takeuforward.org/data-structure/remove-nth-node-from-end-of-linked-list/
 LeetCode: https://leetcode.com/problems/remove-nth-node-from-end-of-list/
 
 Question Description:
