@@ -1,6 +1,5 @@
 """
-Question URLs:
-TakeUForward: https://takeuforward.org/data-structure/find-the-middle-element-of-a-linked-list/
+Question Urls:
 LeetCode: https://leetcode.com/problems/middle-of-the-linked-list/
 
 Question Description:
