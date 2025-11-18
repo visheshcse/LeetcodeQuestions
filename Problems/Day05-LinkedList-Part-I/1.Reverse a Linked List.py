@@ -1,6 +1,5 @@
 """
 Question URLs:
-TakeUForward: https://takeuforward.org/data-structure/reverse-a-linked-list/
 LeetCode: https://leetcode.com/problems/reverse-linked-list/
 
 Question Description:
