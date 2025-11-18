@@ -1,6 +1,5 @@
 """
 Question URLs:
-TakeUForward: https://takeuforward.org/data-structure/add-two-numbers-represented-by-linked-lists/
 LeetCode: https://leetcode.com/problems/add-two-numbers/
 
 Question Description:
