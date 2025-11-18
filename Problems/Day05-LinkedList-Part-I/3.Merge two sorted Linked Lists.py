@@ -1,6 +1,5 @@
 """
 Question URLs:
-TakeUForward: https://takeuforward.org/data-structure/merge-two-sorted-linked-lists/
 LeetCode: https://leetcode.com/problems/merge-two-sorted-lists/
 
 Question Description:
