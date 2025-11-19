@@ -1,126 +1,114 @@
 """
-LeetCode URL: https://leetcode.com/problems/3sum/
+Question URL:
+LeetCode: https://leetcode.com/problems/3sum/
 
 Question Description:
-Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that 
-i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
-
+Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that:
+i != j, i != k, j != k, and nums[i] + nums[j] + nums[k] == 0.
 Notice that the solution set must not contain duplicate triplets.
 
-Constraints:
-- 3 <= nums.length <= 3000
-- -10^5 <= nums[i] <= 10^5
+Example:
+Input: nums = [-1,0,1,2,-1,-4]
+Output: [[-1,-1,2],[-1,0,1]]
 """
 
-#########################################################
-# Brute Force Approach: Triple Nested Loops
-#########################################################
-
-def threeSum_brute(nums):
+def threeSum_two_pointers(nums):
     """
-    Time Complexity: O(N^3)
-    Space Complexity: O(N) for output storage
-    
-    Algorithm Steps:
-    1. Iterate over all triplets (i, j, k) with three nested loops.
-    2. Check if the sum of nums[i], nums[j], nums[k] is zero.
-    3. Keep the triplets in a set to avoid duplicates.
-    4. Convert the set to a list before returning.
-    """
-    n = len(nums)
-    res = set()
-    for i in range(n):
-        for j in range(i + 1, n):
-            for k in range(j + 1, n):
-                if nums[i] + nums[j] + nums[k] == 0:
-                    triplet = tuple(sorted([nums[i], nums[j], nums[k]]))
-                    res.add(triplet)
-    return list(res)
+    Two Pointers with Pre-Sort Approach
+    Time Complexity: O(n^2)
+    Space Complexity: O(n) due to result list
 
-#########################################################
-# Better Approach (Take U Forward Reference): Fix two elements + hash set for third element (no sorting)
-#########################################################
-
-def threeSum_better(nums):
-    """
-    Time Complexity: O(N^2)
-    Space Complexity: O(N) for hash set and output storage
-    
-    Algorithm Steps:
-    1. Iterate for first element i.
-    2. Iterate for second element j > i.
-    3. Calculate target = -(nums[i] + nums[j]).
-    4. Use a hash set to check if target is present among remaining elements.
-    5. Use a set to store unique triplets (sorted tuples) to avoid duplicates.
-    """
-    n = len(nums)
-    res = set()
-    for i in range(n):
-        seen = set()
-        for j in range(i + 1, n):
-            target = -(nums[i] + nums[j])
-            if target in seen:
-                triplet = tuple(sorted((nums[i], nums[j], target)))
-                res.add(triplet)
-            seen.add(nums[j])
-    return list(res)
-
-#########################################################
-# Optimized Approach: Sorting + Two Pointer + Skip Duplicates
-#########################################################
-
-def threeSum_optimized(nums):
-    """
-    Time Complexity: O(N^2)
-    Space Complexity: O(N) for sorting and output storage
-    
-    Algorithm Steps:
-    1. Sort the array.
-    2. Iterate with index i, skipping duplicates.
-    3. Use two pointers left = i+1 and right = n-1.
-    4. Move pointers based on sum compared with zero while skipping duplicates.
-    5. Add valid triplets to result list.
+    Steps:
+    1. Sort the input array.
+    2. For each index i, use two pointers (left, right) to find pairs nums[l], nums[r] so that nums[i] + nums[l] + nums[r] == 0.
+    3. Skip duplicates for nums[i], nums[l], nums[r] to ensure unique triplets.
+    4. Collect valid triplets into output list.
     """
     nums.sort()
     n = len(nums)
     res = []
     for i in range(n):
-        if i > 0 and nums[i] == nums[i-1]:
+        if i > 0 and nums[i] == nums[i-1]:  # skip duplicate first elements
             continue
-        left, right = i + 1, n - 1
-        while left < right:
-            total = nums[i] + nums[left] + nums[right]
+        l, r = i+1, n-1
+        while l < r:
+            total = nums[i] + nums[l] + nums[r]
             if total == 0:
-                res.append([nums[i], nums[left], nums[right]])
-                left += 1
-                right -= 1
-                while left < right and nums[left] == nums[left - 1]:
-                    left += 1
-                while left < right and nums[right] == nums[right + 1]:
-                    right -= 1
+                res.append([nums[i], nums[l], nums[r]])
+                l += 1
+                r -= 1
+                while l < r and nums[l] == nums[l-1]:
+                    l += 1
+                while l < r and nums[r] == nums[r+1]:
+                    r -= 1
             elif total < 0:
-                left += 1
+                l += 1
             else:
-                right -= 1
+                r -= 1
     return res
 
+def threeSum_hashset_with_sort(nums):
+    """
+    HashSet with Sorting (inside loop, input sorted first)
+    Time Complexity: O(n^2)
+    Space Complexity: O(n^2) for hashset and output
 
-#########################################################
-# Sample Initialization and Execution
-#########################################################
+    Steps:
+    1. Sort the input array.
+    2. For each index i, use hashset to track seen elements for the current target (0 - nums[i]).
+    3. When a pair is found, add the sorted triplet tuple to the result set to ensure uniqueness.
+    4. Convert set of tuples to list of lists.
+    """
+    nums.sort()
+    n = len(nums)
+    res_set = set()
+    for i in range(n):
+        if i > 0 and nums[i] == nums[i-1]:  # skip duplicate
+            continue
+        seen = set()
+        for j in range(i+1, n):
+            target = -nums[i] - nums[j]
+            if target in seen:
+                triplet = (nums[i], nums[j], target)
+                res_set.add(tuple(sorted(triplet)))
+            seen.add(nums[j])
+    return [list(t) for t in res_set]
 
-sample_nums = [-1, 0, 1, 2, -1, -4]
+def threeSum_hashset_no_sort(nums):
+    """
+    HashSet No Sort Approach (Do not sort input, only sort triplet for set)
+    Time Complexity: O(n^2)
+    Space Complexity: O(n^2) for hashset and output
 
-print("Input Array:", sample_nums)
+    Steps:
+    1. For every i, use a hashset to store numbers seen after i.
+    2. Search for pairs such that the complement forms a zero-sum with nums[i].
+    3. Store each found triplet as a sorted tuple in set for uniqueness.
+    4. Return list of lists from the set.
+    """
+    n = len(nums)
+    res_set = set()
+    for i in range(n):
+        seen = set()
+        for j in range(i+1, n):
+            complement = -nums[i] - nums[j]
+            if complement in seen:
+                triplet = tuple(sorted([nums[i], nums[j], complement]))
+                res_set.add(triplet)
+            seen.add(nums[j])
+    return [list(t) for t in res_set]
 
-print("
-Brute Force Approach Output:")
-print(threeSum_brute(sample_nums))
+if __name__ == "__main__":
+    nums = [-1, 0, 1, 2, -1, -4]
+    print("Sample Input:", nums)
 
-print("
-Better Approach Output (Take U Forward Reference):")
-print(threeSum_better(sample_nums))
+    print("\nTwo Pointers with Pre-Sort Approach:")
+    print(threeSum_two_pointers(nums))
 
-print("
-Optimized Approach Output:")
-print(threeSum_optimized(sample_nums))
+    nums2 = [-1, 0, 1, 2, -1, -4]
+    print("\nHashSet with Sorting (on sorted nums):")
+    print(threeSum_hashset_with_sort(nums2))
+
+    nums3 = [-1, 0, 1, 2, -1, -4]
+    print("\nHashSet No Sort Approach (input not sorted):")
+    print(threeSum_hashset_no_sort(nums3))
