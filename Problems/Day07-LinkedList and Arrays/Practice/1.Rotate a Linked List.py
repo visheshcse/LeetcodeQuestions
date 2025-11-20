@@ -1,8 +1,8 @@
 # LeetCode problem: https://leetcode.com/problems/rotate-list/
 
 class ListNode:
-    def __init__(self, val=0, next=None):
-        self.val = val
+    def __init__(self, value=0, next=None):
+        self.value = value
         self.next = next
 
 
@@ -24,6 +24,7 @@ def rotateRightBruteForce(head, k):
     while current:
         length += 1
         current = current.next
+    print(length)
 
     k = k % length
     if k == 0:
@@ -55,36 +56,35 @@ def rotateRightOptimized(head, k):
         return head
 
     length = 1
-    last = head
-    while last.next:
-        last = last.next
+    current = head
+    while current.next:
         length += 1
+        current = current.next
 
     k = k % length
     if k == 0:
         return head
 
-    last.next = head
-    temp = head
-    for _ in range(length - k - 1):
-        temp = temp.next
+    current.next = head
+    current = head
+    for _ in range(0, length-k-1):
+        current = current.next
+    print(current.value)
+    head = current.next
+    current.next = None
 
-    new_head = temp.next
-    temp.next = None
-
-    return new_head
+    return head
 
 
 def printList(head):
     values = []
     current = head
     while current:
-        values.append(str(current.val))
+        values.append(str(current.value))
         current = current.next
     return '->'.join(values)
 
-
-# Simple linked list 1->2->3
+    # Simple linked list 1->2->3
 head = ListNode(1, ListNode(2, ListNode(3)))
 
 # Run brute force rotation by 1
@@ -92,5 +92,5 @@ rotated_brute = rotateRightBruteForce(head, 1)
 print("List after brute force rotation by 1:", printList(rotated_brute))
 
 # Run optimized rotation by 2
-rotated_opt = rotateRightOptimized(rotated_brute, 2)
+rotated_opt = rotateRightOptimized(rotated_brute, 1)
 print("List after optimized rotation by 2:", printList(rotated_opt))
