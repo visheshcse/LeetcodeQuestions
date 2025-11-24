@@ -2,4 +2,4 @@
 
 Resources
 
-https://leetcode.com/problem-list/top-interview-questions/
+https://leetcode.com
