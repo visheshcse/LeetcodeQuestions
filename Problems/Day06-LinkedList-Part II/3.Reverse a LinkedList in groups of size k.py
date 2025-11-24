@@ -31,42 +31,51 @@ class ListNode:
 ##############################################################
 
 class Solution:
-    def reverseKGroup_iterative(self, head: ListNode, k: int) -> ListNode:
+    def reverseKGroup_iterative(head: ListNode, k: int) -> ListNode:
         """
-        Iterative approach:
-        1. Use a dummy node to ease edge cases.
-        2. Count total number of nodes.
-        3. For each group of k, reverse nodes in-place.
-        4. Connect reversed with previously processed nodes.
-        5. If fewer than k remain, leave as-is.
+        Iterative approach to reverse nodes in k-group:
+        1. Use a dummy node for easier handling of head reversals.
+        2. For each k-sized group, reverse the group.
+        3. Connect the reversed group back to the previous part.
+        4. If the nodes left are fewer than k, leave as is.
+        Time: O(n)
+        Space: O(1)
         """
         dummy = ListNode(0)
         dummy.next = head
         group_prev = dummy
-        
-        def get_kth(curr, k):
-            while curr and k > 0:
-                curr = curr.next
-                k -= 1
-            return curr
-        
+
+        def get_kth_node(start, steps):
+            # Return the k-th node from start, or None if not enough nodes
+            current = start
+            count = 0
+            while current and count < steps:
+                current = current.next
+                count += 1
+            return current
+
         while True:
-            kth = get_kth(group_prev, k)
+            kth = get_kth_node(group_prev, k)  # Find the kth node from group_prev
             if not kth:
-                break
-            group_next = kth.next
-            
-            # Reverse group
-            prev, curr = kth.next, group_prev.next
+                break  # Fewer than k nodes left—stop
+            next_group_head = kth.next         # Save the next group's first node
+
+            # Reverse the k nodes
+            prev, curr = next_group_head, group_prev.next
             for _ in range(k):
-                tmp = curr.next
+                temp = curr.next
                 curr.next = prev
                 prev = curr
-                curr = tmp
-            tmp = group_prev.next
-            group_prev.next = kth
-            group_prev = tmp
+                curr = temp
+
+            # Reconnect the reversed segment with the previous and next section
+            old_group_start = group_prev.next
+            group_prev.next = kth          # kth is new group head after reversal
+            group_prev = old_group_start   # Move group_prev to end of new reversed group
+
         return dummy.next
+
+
 
 ##############################################################
 # Approach 2: Recursive Group Reversal
