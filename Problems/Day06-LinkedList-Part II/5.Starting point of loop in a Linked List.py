@@ -94,6 +94,12 @@ class Solution:
                 break
         else:
             return None
+        # If you exit the loop via break, the else is skipped.
+        # If you exit because the condition became False, the else executes.
+        
+        # We can use this as well
+        # if fast is None or fast.next is None:
+        #     return None
         slow = head
         while slow != fast:
             slow = slow.next
