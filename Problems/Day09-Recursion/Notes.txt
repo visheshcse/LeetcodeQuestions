@@ -1,0 +1,40 @@
+
+###########################################################################################################################################################
+Time Complexity in recursion Tree
+A safe way to express the time complexity:
+Number of is_palindrome calls: O(2^n)
+Number of is_palindrome calls in GP terms:
+********************************************************************
+Assume worst case: from each state recursion branches into 2 children
+(like “cut here” or “do not cut here”).
+Think of the recursion tree levels:
+Level 0: 2^0 = 1 node  Level 1: 2^1 = 2 nodes, Level 2: 2^2 = 4 nodes
+Level k: 2^k nodes
+...
+Level n: 2^n nodes (at most)
+Total number of nodes (states) in the recursion tree is:
+1 + 2 + 4 + ... + 2^n
+This is a geometric progression (GP) with
+first term a = 1, ratio r = 2, number of terms = n+1.
+Sum of GP:
+S = a * (r^(n+1) - 1) / (r - 1)
+S = 1 * (2^(n+1) - 1) / (2 - 1)
+S = 2^(n+1) - 1
+Asymptotically, S is O(2^n).
+************************************************************************
+Each node corresponds to at most a constant number of is_palindrome checks,
+so the total number of is_palindrome calls is O(2^n).
+Cost per is_palindrome call: O(n)
+Total time: O(2^n * n)
+Some branches are short and many substrings are smaller than length n, so the actual running time is often less in practice. 
+O(2^n * n) is just a worst-case upper bound, not saying that each recursion level always costs O(n)
+###########################################################################################################################################################
+
+Recursion Video - Hitesh chai aur code
+https://www.youtube.com/watch?v=l8X9nhgZyoA
+
+###########################################################################################################################################################
+
+1.Generate one side of tree only.The end stop will become the base case
+2.Draw a tree. Options in a tree become a part of recursive calls.
+3.The number of calls depend on number of levels at a particular set of tree, it can be one, two, or many(loop will be used to make recursive calls).

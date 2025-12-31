@@ -78,24 +78,7 @@ class Solution:
 
 
     ########################################
-    # Approach 3: Dynamic Programming (Bottom-Up)
-    # Time Complexity: O(N * 2^N)
-    # Space Complexity: O(N * 2^N)
-    ########################################
-    def subsets_dp(self, nums: List[int]) -> List[List[int]]:
-        """
-        DP approach:
-        - Use iterative method to build subsets bottom-up.
-        - For each number, add it to all existing subsets stored in dp.
-        """
-        dp = [[]]
-        for num in nums:
-            # Append num to all existing subsets
-            dp += [curr + [num] for curr in dp]
-        return dp
-
-    ########################################
-    # Approach 4: Bitmasking
+    # Approach 3: Bitmasking
     # Time Complexity: O(N * 2^N)
     # Space Complexity: O(N * 2^N)
     ########################################
