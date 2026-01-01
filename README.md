@@ -1,4 +1,4 @@
-# LeetcodeQuestions
+# DSandAlgo
 
 This repository contains solution of DSA questions
 
