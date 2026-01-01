@@ -32,6 +32,15 @@ class Solution:
     # Approach 2: Backtracking (DFS)
     # Time Complexity: O(N * 2^N)
     # Space Complexity: O(N * 2^N) for recursion stack and output
+    # k-ary tree; i.e. loop for recursion call
+    #                     []
+    #         /          |          \
+    #     [1]         [2]         [3]
+    #     /   \         |
+    # [1,2]  [1,3]    [2,3]
+    # |
+    # [1,2,3]
+
     ########################################
     def subsets_backtracking(self, nums: List[int]) -> List[List[int]]:
         """
@@ -53,7 +62,7 @@ class Solution:
         backtrack(0, [])
         return result
     
-    def subsets_backtracking_two_calls(nums):
+    def subsets_backtracking_two_calls(self, nums):
         """
         Backtracking with two recursion calls:
         At each index, recursively explore both:
@@ -61,6 +70,16 @@ class Solution:
         - Excluding nums[index]
         Time Complexity: O(N * 2^N)
         Space Complexity: O(N * 2^N)
+        two calls at every level, binary tree
+
+                                            []
+                        / (exclude 1)           \ (include 1)
+                    []                         [1]
+                / (exclude 2)         \ (include 2)      / (exclude 2)        \ (include 2)
+            []                       [2]             [1]                     [1, 2]
+        / (exclude 3) \ (include 3)   / (exclude 3) \ (include 3)   / (exclude 3) \ (include 3)   / (exclude 3) \ (include 3)
+        []             [3]           [2]            [2, 3]           [1]           [1, 3]          [1, 2]        [1, 2, 3]
+
         """
         result = []
 
@@ -112,8 +131,8 @@ if __name__ == "__main__":
     print("\nBacktracking Approach Output:")
     print(sol.subsets_backtracking(nums))
 
-    print("\nDynamic Programming Approach Output:")
-    print(sol.subsets_dp(nums))
+    print("\nBacktracking Approach Output two calls:")
+    print(sol.subsets_backtracking_two_calls(nums))
 
     print("\nBitmasking Approach Output:")
     print(sol.subsets_bitmask(nums))
