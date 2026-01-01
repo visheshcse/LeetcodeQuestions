@@ -39,58 +39,5 @@ https://www.youtube.com/watch?v=l8X9nhgZyoA
 2.Draw a tree. Options in a tree become a part of recursive calls.
 3.The number of calls depend on number of levels at a particular set of tree, it can be one, two, or many(loop will be used to make recursive calls).
 
-###########################################################################################################################################################
 
-path.append() return None and do changes in same List, path + [num] --> creates new list
-
-Conceptually you can index a Python string like an array of characters, but under the hood it is **not** the same as a C/C++ `char[]`.
-
-## Conceptual behavior
-- Python strings are *sequences* of Unicode characters and support indexing and slicing: `s[0]`, `s[1:3]`, iteration in `for ch in s`, etc., 
-   similar to an array of chars at the API level.[1][2]
-- Unlike C/C++, there is no separate `char` type; a “character” is just a string of length 1, e.g. `'a'` is a `str`.[3][1]
-
-## Implementation differences vs C/C++
-- In C/C++: strings are typically contiguous `char` arrays terminated by `'\0'`.[4]
-- In Python: `str` is an immutable object storing Unicode code points, not a raw `char[]`; the internal representation 
-  is an implementation detail and not exposed as a modifiable character array.[5][3]
-- Because strings are immutable, operations like concatenation or replace create a **new** string rather than modifying an 
-  underlying buffer in place.[5][3]
-
-So: you can think of a Python string as an indexable sequence of characters like an array, but it is a higher-level immutable Unicode string type,
-not a low-level `char[]` as in C++.
-
-Here are concise notes comparing swapping in **strings** vs **lists** in Python.
-
-## Strings (immutable)
-
-- Strings cannot be modified in place; attempting `s[0] = 'x'` gives `TypeError: 'str' object does not support item assignment`.[1][2]
-- So code like:
-
-  ```python
-  arr = "123"
-  arr[0], arr[2] = arr[2], arr[0]   # ❌ error
-  ```
-
-  is invalid because it tries to assign to string indices.[2][1]
-- To “swap characters”, convert to a list, modify, then build a new string:
-
-  ```python
-  arr = "123"
-  lst = list(arr)          # ['1', '2', '3']
-  lst[0], lst[2] = lst[2], lst[0]
-  arr = "".join(lst)       # "321"
-  ```
-
-## Lists (mutable)
-
-- Lists are mutable, so you can freely change and swap elements in place.[3]
-- Swapping two elements uses multiple assignment:
-
-  ```python
-  arr = [1, 2, 3]
-  arr[0], arr[2] = arr[2], arr[0]   # [3, 2, 1]
-  ```
-
-- Any reference to the same list sees the updated order, because the list object itself is modified, not recreated.[4][3]
 
